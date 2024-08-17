@@ -137,21 +137,6 @@ email (text)
 active (boolean)
 
 sql fonksiyonları :
-gerçekten çok fazla fonksiyon var. Fonksiyonların formatı aşağıdaki gibidir, sen şimdilik en temel 4 fonksiyonu yaz ona göre devam ederiz, fonksiyonların formatı da aşağıdaki gibiidr
-
-add_agent
-add_appointment
-
-add_hospital_device
-add_hospital_doctor
-add_patient
-add_treatment
-
-delete_agent
-delete_appointment
-delete_devices
-delete_doctor
-delete_hospital
-
+gerçekten çok fazla fonksiyon var. Fonksiyonların formatı aşağıdaki gibidir, sen şimdilik en temel 4 fonksiyonu yaz ona göre devam ederiz
 
 
