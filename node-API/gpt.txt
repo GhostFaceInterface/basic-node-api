@@ -1,0 +1,157 @@
+elimde postgresql tabalı supabase database var. Bu database içerisinde Tüm CRUD işlemlerinin yapıldığı Sql fonksiyonları var. Benim node.js ile bir api yazmam isteniyor. bu api json web token kullanacak, crud işlemleri için supabase'den fonksiyonları kullanacak yani örneğin bir get sorgusu yazıldığı zaman supabase içerisinde zaten tanımlı olan çeşit çeşit get fonksiyonları var, onları çağırmak gerekiyor. Fakat senin database şemalarını oluşturman gerek. Ben sana tek tek tabloları, aralarındaki ilişkiyi, sql fonksiyonlarını, yazacağım. Sen de bana api işlemleri için gerekli olan ne var ne yok her şeyi ver ama sıra sıra ver. Böylece daha hızlı sonuç elde edebilirim. Öncelikle sana kullandığım kütüphaneleri göstereyim package.json dosyasını yani :
+{
+  "name": "nodeapi",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "nodeapi": "file:",
+    "nodemon": "^3.1.4",
+    "pg": "^8.12.0"
+  }
+}
+
+
+gördüğün gibi express üzerinden api yapıyorum, .env dosyasında hem supabase bilgileri hem de supabase database connection (postgresql) bilgileri bulunuyor. ama ek olarak daha kütüphane eklemek istiyorsan ekleyebilirsin
+projemin dosya dizini şu şekilde :
+config
+controllers
+middleware
+models
+routes
+node_modules
+.env
+daha folder ekleyebilirsin. eklemek istediğin her dosyanın da konumunu belirt ki karmaşa olmasın.
+gelelim tablomuza : 
+
+Agent tablosu :
+user_id (User tablosuna ait id (uuid) değeridir)
+price (float4)
+bank (text)
+iban (text)
+tax_administration (text)
+tax_no (text)
+id (uuid)
+
+
+Appointment tablosu : 
+id (uuid)
+protocol_no (character varying)
+doctor_id (Doctor tablosuna ait id (uuid) değeridir)
+agent_id (Agent tablosuna ait id (uuid) değeridir)
+created_date (timestamp without time zone)
+patient_id (Patient tablosuna ait id (uuid) değeridir)
+hospital_id (Hospital tablosuna ait id (uuid) değeridir)
+
+AppUsers tablosu : 
+id (uuid)
+created_at (timestamp with time zone)
+role_id (Role tablosuna ait id (uuid) değeridir)
+auth_id (auth şemasında users tablosundaki id (uuid) değeridir)
+user_id (User tablosuna ait id (uuid) değeridir)
+
+
+Devices tablosu :
+id (uuid)
+created_at (timestamp with time zone)
+name (character varying)
+status (boolean)
+
+Doctor tablosu :
+id (uuid)
+created_at (timestamp with time zone)
+user_id (User tablosuna ait id (uuid) değeridir)
+device_id (Device tablosuna ait id (uuid) değeridir)
+
+Hospital tablosu : 
+id (uuid)
+hospitalType (text)
+hospitalName (text)
+
+HospitalAdmin tablosu : 
+id (uuid)
+created_at (timestamp with time zone)
+user_id (User tablosuna ait id (uuid) değeridir)
+hospital_id (Hospital tablosuna ait id (uuid) değeridir)
+
+
+HospitalDevice tablosu :
+id (uuid)
+device_id (Device tablosuna ait id (uuid) değeridir)
+hospital_id (Hospital tablosuna ait id (uuid) değeridir)
+
+
+HospitalDoctor tablosu :
+id (uuid)
+doctor_id (Doctor tablosuna ait id (uuid) değeridir)
+hospital_id (Hospital tablosuna ait id (uuid) değeridir)
+
+
+HospitalPatient tablosu :
+id (uuid)
+created_at 
+patient_id (Patient tablosuna ait id (uuid) değeridir)
+hospital_id (Hospital tablosuna ait id (uuid) değeridir)
+
+
+Patient tablosu :
+id (uuid)
+created_at
+user_id (User tablosuna ait id (uuid) değeridir)
+doctor_id (Doctor tablosuna ait id (uuid) değeridir)
+
+
+
+Roles tablosu :
+id (uuid)
+role (text)
+
+
+Treatment tablosu :
+id (uuid) 
+created_at 
+treatment_type (character varying)
+device_id (Device tablosuna ait id (uuid) değeridir)
+patient_id (Patient tablosuna ait id (uuid) değeridir)
+report_path (array)
+
+
+User tablosu : 
+id (uuid)
+role_id (Roles tablosuna ait id (uuid) değeridir)
+name (text)
+surname (text)
+phone (text)
+email (text)
+active (boolean)
+
+sql fonksiyonları :
+gerçekten çok fazla fonksiyon var. Fonksiyonların formatı aşağıdaki gibidir, sen şimdilik en temel 4 fonksiyonu yaz ona göre devam ederiz, fonksiyonların formatı da aşağıdaki gibiidr
+
+add_agent
+add_appointment
+
+add_hospital_device
+add_hospital_doctor
+add_patient
+add_treatment
+
+delete_agent
+delete_appointment
+delete_devices
+delete_doctor
+delete_hospital
+
+
+
